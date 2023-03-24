@@ -16,7 +16,9 @@ if (isset($_POST['submit'])) {
             "total" => $price * $qtt
         ];
         $_SESSION["products"][] = $product;
+        // $_SESSION["messagevrais"] = "Vos produits ont bien été ajouté";
+        // $_SESSION["messagefaux"] = "Votre produit est faux";
     }
-}
 
-header("Location:recap.php");
+}
+header("Location:index.php");
