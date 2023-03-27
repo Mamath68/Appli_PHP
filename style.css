@@ -38,6 +38,8 @@ table{
 .nav{
     height: 50px;
     line-height: 35px;
+    border: 1px solid white;
+    background-color: white;
 }
 
 input[type=submit] {

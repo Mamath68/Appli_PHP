@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
-    
-    <head>
+
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +35,10 @@
                 "<td>" . $product["name"] . "</td>",
                 "<td>" . number_format($product["price"], 2, ",", "&nbsp") . "&nbsp;€</td>",
                 "<td>" . $product["qtt"] . "</td>",
-                "<td>" . number_format($product["total"], 2, ",", "&nbsp") . "&nbsp;€</td>",
+                "<td>" . number_format($product["total"], 2, ",", "&nbsp") . "&nbsp;€ </td> ",
+                "<td><a class='btn btn-primary' href='traitement.php?action=plus&index=$index' role='button'>Augmenter</a></td> ",
+                "<td><a class='btn btn-primary' href='traitement.php?action=moin&index=$index' role='button'>Reduire</a></td> ",
+                "<td><a class='btn btn-primary' href='traitement.php?action=deleteone&index=$index' role='button'>Supprimer</a></td> ",
                 "</tr>";
             $totalGeneral += $product["total"];
         }
@@ -46,6 +49,13 @@
             "</tr>",
             "</tbody>",
             "</table>";
+
+
+        echo '<a class="btn btn-primary separate" href="traitement.php?action=deleteAll" role="button">vider panier</a><br><br>';
+    }
+    if (isset($_SESSION['message'])) {
+        echo $_SESSION['message'];
+        unset($_SESSION['message']);
     }
     ?>
 </body>
