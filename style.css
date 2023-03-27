@@ -21,11 +21,20 @@ h1 {
     margin-bottom: 10%;
 }
 
-thead, tbody,td,th{
+thead,
+tbody,
+td,
+th {
     border-width: 1px;
+    width: 20%;
 }
 
-table{
+table {
+    table-layout: sticky;
+}
+
+
+table {
     margin-top: 10%;
 }
 
@@ -35,7 +44,7 @@ table{
     font-weight: bold;
 }
 
-.nav{
+.nav {
     height: 50px;
     line-height: 35px;
     border: 1px solid white;

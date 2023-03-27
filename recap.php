@@ -54,7 +54,7 @@
         echo '<a class="btn btn-primary separate" href="traitement.php?action=deleteAll" role="button">vider panier</a><br><br>';
     }
     if (isset($_SESSION['message'])) {
-        echo $_SESSION['message'];
+        echo"<h2>" .$_SESSION['message']."<h2>";
         unset($_SESSION['message']);
     }
     ?>

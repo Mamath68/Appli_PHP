@@ -56,7 +56,7 @@ if (isset($_GET['action'])) {
             if (isset($_GET['index']) && isset($_SESSION['products'][$_GET['index']])) {
                 $_SESSION['products'][$_GET['index']]['qtt'] += 1;
                 $_SESSION['products'][$_GET['index']]['total'] = $_SESSION['products'][$_GET['index']]['qtt'] * $_SESSION['products'][$_GET['index']]['price'];
-                $_SESSION['message'] = "Vous avez bien augmenté " . $_SESSION['products'][$_GET['index']]['name'];
+                $_SESSION['message'] = "Vous avez bien augmenté la quantité de " . $_SESSION['products'][$_GET['index']]['name'];
             }
             header("Location:recap.php");
             break;
@@ -64,7 +64,7 @@ if (isset($_GET['action'])) {
             if (isset($_GET['index']) && isset($_SESSION['products'][$_GET['index']])) {
                 $_SESSION['products'][$_GET['index']]['qtt'] -= 1;
                 $_SESSION['products'][$_GET['index']]['total'] = $_SESSION['products'][$_GET['index']]['qtt'] * $_SESSION['products'][$_GET['index']]['price'];
-                $_SESSION['message'] = "Vous avez bien Reduit " . $_SESSION['products'][$_GET['index']]['name'];
+                $_SESSION['message'] = "Vous avez bien reduit la quantité de " . $_SESSION['products'][$_GET['index']]['name'];
             }
             header("Location:recap.php");
             break;
