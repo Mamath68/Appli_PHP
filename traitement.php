@@ -39,7 +39,6 @@ if (isset($_GET['action'])) {
                     header("Location:index.php");
                 }
             }
-            $_SESSION['message'] = "Vous avez bien ajouté des " . $name;
             break;
         case "deleteAll":
             unset($_SESSION['products']);
