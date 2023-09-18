@@ -53,7 +53,7 @@ class BoutiqueController extends AbstractController implements ControllerInterfa
                         "name" => $name,
                         "price" => $price,
                         "quantity" => $quantity,
-                        "total" => $price * $quantity
+                        "total" => $price * $quantity,
                     ]
                 );
 
@@ -82,13 +82,15 @@ class BoutiqueController extends AbstractController implements ControllerInterfa
     public function TicketCaisse()
     {
         $boutiqueManager = new BoutiqueManager();
-        $boutique = $boutiqueManager->findTotalGeneral();
+        $boutique = $boutiqueManager->findAll();
+        $boutiques = $boutiqueManager->findTotalGeneral();
 
         return [
             "view" => VIEW_DIR . "Calcules/Recapitulatif.php",
             "data" =>
             [
-                "boutique" => $boutique
+                "boutique" => $boutique,
+                "boutiques" => $boutiques
             ]
         ];
     }

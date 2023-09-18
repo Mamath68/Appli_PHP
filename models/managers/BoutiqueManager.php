@@ -22,7 +22,7 @@ class BoutiqueManager extends Manager
                 FROM " . $this->tableName . " a
                 ";
 
-        return $this->getOneOrNullResult(
+        return $this->getMultipleResults(
             DAO::select($sql,),
             $this->className
         );

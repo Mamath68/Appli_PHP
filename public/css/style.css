@@ -21,18 +21,12 @@ h6 {
     margin-bottom: 10%;
 }
 
-input[type=submit] {
-    margin-left: 20px;
-}
-
 thead,
 tbody,
 th,
 tr,
 td {
     border: 2px solid wheat;
-    table-layout: auto;
-    color: wheat;
     border-width: 1px;
     width: 20%;
 }
@@ -43,11 +37,28 @@ td {
     margin-top: 10%;
 }
 
+.trio a {
+    margin: 0.5rem;
+}
+
+
 form {
     display: flex;
     flex-direction: column;
+    background-color: aqua;
     align-items: center;
+    flex-wrap: nowrap;
 }
+
+.container,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl,
+.container-xxl {
+    max-width: 40%;
+}
+
 /* **************Header****************************** ************ */
 nav {
     background-color: rgb(153, 51, 0);

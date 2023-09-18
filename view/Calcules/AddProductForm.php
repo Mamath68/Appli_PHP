@@ -2,7 +2,8 @@
 $boutiques = $result["data"]['boutiques'];
 ?>
 <h1>Ajouter un produit</h1>
-<form action="index.php?ctrl=boutique&action=addProduct" method="post">
+
+<form action="index.php?ctrl=boutique&action=addProduct" class="container" method="post">
     <div class="mb-3">
         <p>
             <label class="form-label">
@@ -41,7 +42,7 @@ $boutiques = $result["data"]['boutiques'];
 <?php
 $totalqtt = 0;
 foreach ($boutiques as $boutique) {
-        $totalqtt += $boutique->getQuantity();
+    $totalqtt += $boutique->getQuantity();
 }
 ?>
 <div class="container text-center bg-primary">
