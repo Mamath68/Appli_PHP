@@ -1,71 +1,73 @@
-    <?php
-    include("header.php");
-    session_start();
-    ?>
+<?php
+namespace Core;
 
-<body>
-    <h1>Ajouter un produit</h1>
-    <form action="traitement.php?action=addProduct" method="post">
-        <div class="mb-3">
-            <p>
-                <label class="form-label">
-                    Nom du produit
-                    <input type="text" name="name" class="form-control">
-                </label>
-            </p>
-        </div>
-        <div class="mb-3">
-            <p>
-                <label class="form-label">
-                    Prix du produit
-                    <input type="number" step="any" name="price" min="0" class="form-control" value="0">
-                </label>
-            </p>
-        </div>
-        <div class="mb-3">
-            <p>
-                <label class="form-label">
-                    Quantité désirée
-                    <input type="number" name="qtt" class="form-control" min="0" value="0">
-                </label>
-            </p>
-            <p>
-                <label class="form-label">
-                    <input type="submit" name="submit" class="btn btn-primary" value="Ajouter le produit">
-                </label>
-            </p>
-        </div>
-        <?php if (isset($_SESSION['message'])) {
-            echo $_SESSION['message'];
-            unset($_SESSION['message']);
-        }
-        ?>
-    </form>
-    <?php
-    $totalqtt = 0;
-    if (isset($_SESSION['products'])) {
-        foreach ($_SESSION['products'] as $index => $product) {
-            $totalqtt += $product["qtt"];
-        }
-    }
-    echo
-        '<div class="container text-center bg-success">
-  <div class="row">
-    <div class="col">
-    Total Général :
-    </div>
-    <div class="col">
-    Il y a <strong>' . $totalqtt . '</strong> Produits enregistré
-    </div>
-  </div>
-  </div>'
-        ?>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-        crossorigin="anonymous"></script>
-</body>
+define('DS', DIRECTORY_SEPARATOR); // le caractère séparateur de dossier (/ ou \)
+// meilleure portabilité sur les différents systêmes.
+define('BASE_DIR', dirname(__FILE__) . DS); // pour se simplifier la vie
+define('VIEW_DIR', BASE_DIR . "view/"); //le chemin où se trouvent les vues
+define('PUBLIC_DIR', "/public"); //le chemin où se trouvent les fichiers    publics (CSS, JS, IMG)
 
-</html>
+define('DEFAULT_CTRL', 'Home'); //nom du contrôleur par défaut
+define('ADMIN_MAIL', "admin@gmail.com"); //mail de l'administrateur
+// Fait Coreel A l'autoloader dans le dossier Core
+require("core/Autoloader.php");
+
+Autoloader::register();
+
+//démarre une session ou récupère la session actuelle
+session_start();
+//et on intègre la classe Session qui prend la main sur les messages en session
+use Core\Session as Session;
+
+//---------REQUETE HTTP INTERCEPTEE-----------
+$ctrlname = DEFAULT_CTRL; //on prend le controller par défaut
+//ex : index.php?ctrl=home
+if (isset($_GET['ctrl'])) {
+    $ctrlname = $_GET['ctrl'];
+}
+//on construit le namespace de la classe Controller à Coreeller
+$ctrlNS = "controllers\\" . ucfirst($ctrlname) . "Controller";
+//on vérifie que le namespace pointe vers une classe qui existe
+if (!class_exists($ctrlNS)) {
+    //si c'est pas le cas, on choisit le namespace du controller par défaut
+    $ctrlNS = "controller\\" . DEFAULT_CTRL . "Controller";
+}
+// crtl(controller) devient un nouveau NamespaceController
+$ctrl = new $ctrlNS();
+
+$action = "index"; //action par défaut de n'importe quel contrôleur
+//si l'action est présente dans l'url ET que la méthode correspondante existe dans le ctrl
+if (isset($_GET['action']) && method_exists($ctrl, $_GET['action'])) {
+    //la méthode à Coreeller sera celle de l'url
+    $action = $_GET['action'];
+}
+// 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+} else
+    $id = null;
+
+if (isset($_GET['name'])) {
+    $name = $_GET['name'];
+} else
+    $name = null;
+
+
+//ex : HomeController->users(null)
+$result = $ctrl->$action($id);
+
+/*--------CHARGEMENT PAGE--------*/
+
+if ($action == "ajax") { //si l'action était ajax
+    echo $result; //on affiche directement le return du contrôleur (càd la réponse HTTP sera uniquement celle-ci)
+} else {
+    ob_start(); //démarre un buffer (tampon de sortie)
+    /*la vue s'insère dans le buffer qui devra être vidé au milieu du layout*/
+    include($result['view']);
+    /*je mets cet affichage dans une variable*/
+    $contenu = ob_get_contents();
+    /*j'efface le tampon*/
+    ob_end_clean();
+    /*j'affiche le template principal (layout)*/
+    include VIEW_DIR . "layout.php";
+}
