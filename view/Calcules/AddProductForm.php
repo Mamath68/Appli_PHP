@@ -16,7 +16,7 @@ $boutiques = $result["data"]['boutiques'];
         <p>
             <label class="form-label">
                 Prix du produit
-                <input type="number" step="any" name="price" min="0" class="form-control" value="0">
+                <input type="number" step="any" name="price" min="0" max="999" class="form-control" value="0">
             </label>
         </p>
     </div>
@@ -56,4 +56,4 @@ foreach ($boutiques as $boutique) {
     </div>
 </div>
 
-<?= $title = "Formulaire D'ajout de Produit" ?>
+<?= $title = "Ajouter un Produit" ?>

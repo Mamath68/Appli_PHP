@@ -16,14 +16,26 @@ class BoutiqueManager extends Manager
         parent::connect();
     }
 
-    public function findTotalGeneral()
+    public function deleteAll()
     {
-        $sql = "SELECT SUM(a.total)
+        $sql = "Delete 
                 FROM " . $this->tableName . " a
                 ";
 
         return $this->getMultipleResults(
-            DAO::select($sql,),
+            DAO::select($sql),
+            $this->className
+        );
+    }
+    public function deleteById($id)
+    {
+        $sql = "Delete 
+                FROM " . $this->tableName . " a
+                WHERE a.id_articles = :id
+                ";
+
+        return $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id], true),
             $this->className
         );
     }

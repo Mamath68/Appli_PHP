@@ -2,25 +2,24 @@
 $boutiques = $result['data']['boutique'];
 
 ?>
-<table class='table'>
-    <thead>
-        <tr class="table-dark">
-            <th scope='col'> Nom </th>
-            <th scope='col'> Prix </th>
-            <th scope='col'> Quantité </th>
-            <th scope='col'> Total </th>
-            <th scope='col'> </th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $totalGeneral = 0;
-        foreach ($boutiques as $boutique) {
-            if (empty($boutique->getId())) {
-        ?>
-                <p>Aucun produit en Session...</p>
+<?php
+$totalGeneral = 0;
+if (isset($boutiques)) {
+?>
+    <table class='table'>
+        <thead>
+            <tr class="table-dark">
+                <th scope='col'> Nom </th>
+                <th scope='col'> Prix </th>
+                <th scope='col'> Quantité </th>
+                <th scope='col'> Total </th>
+                <th scope='col'> </th>
+            </tr>
+        </thead>
+        <tbody>
+
             <?php
-            } else {
+            foreach ($boutiques as $boutique) {
             ?>
                 <tr class="table-secondary">
                     <td class="table-dark text-center"><?= $boutique->getName() ?></td>
@@ -33,25 +32,31 @@ $boutiques = $result['data']['boutique'];
                         <a class='btn btn-primary' href='index.php?ctrl=boutique&action=deleteOne&id=<?= $boutique->getId() ?>' role='button'>Supprimer</a>
                     </td>
                 </tr>
-        <?php
-            $totalGeneral += $boutique->getTotal();
-
+            <?php
+                $totalGeneral += $boutique->getTotal();
             }
-        }
-        ?>
-        <tr class="table-secondary">
-            <td class="table-secondary" colspan=4>Total Général : </td>
-            <td class="table-secondary"><strong><?= number_format($totalGeneral, 2, ",", "&nbsp;") ?> &nbsp;€</strong></td>
-        </tr>
-    </tbody>
-</table>
-<a class="btn btn-primary separate" href="index.php?ctrl=boutique&action=deleteAll" role="button">vider panier</a>
+            ?>
+
+            <tr class="table-secondary">
+                <td class="table-secondary" colspan=4>Total Général : </td>
+                <td class="table-secondary"><strong><?= number_format($totalGeneral, 2, ",", "&nbsp;") ?> &nbsp;€</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary separate" href="index.php?ctrl=boutique&action=deleteAll" role="button">Vider le Pannier</a>
+    <?php
+    if (isset($_SESSION['message'])) {
+    ?>
+        <h2><?= $_SESSION['message'] ?></h2>
+    <?php
+        unset($_SESSION['message']);
+    }
+    ?>
 <?php
-if (isset($_SESSION['message'])) {
+} else {
 ?>
-    <h2><?= $_SESSION['message'] ?></h2>
+    <h2>Aucun produit en Session...</h2>
 <?php
-    unset($_SESSION['message']);
 }
 ?>
 

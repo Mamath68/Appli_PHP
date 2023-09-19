@@ -83,29 +83,27 @@ class BoutiqueController extends AbstractController implements ControllerInterfa
     {
         $boutiqueManager = new BoutiqueManager();
         $boutique = $boutiqueManager->findAll();
-        $boutiques = $boutiqueManager->findTotalGeneral();
 
         return [
             "view" => VIEW_DIR . "Calcules/Recapitulatif.php",
             "data" =>
             [
                 "boutique" => $boutique,
-                "boutiques" => $boutiques
             ]
         ];
     }
     public function deleteAll()
     {
-        unset($_SESSION['products']);
+        $boutique = new BoutiqueManager();
+        $boutique->deleteAll();
         $this->redirectTo("Boutique", "index");
         $_SESSION['message'] = "Vous avez bien supprimé ce Tableau";
     }
-    public function deleteOne()
+    public function deleteOne($id)
     {
-        if (isset($_GET['index']) && isset($_SESSION['products'][$_GET['index']])) {
-            $_SESSION['message'] = "Vous avez bien supprimé " . $_SESSION['products'][$_GET['index']]['name'];
-            unset($_SESSION['products'][$_GET['index']]);
-        }
+        $boutiqueManager = new BoutiqueManager();
+        $boutiqueManager->deletebyId($id);
+        $_SESSION['message'] = "Vous avez bien supprimé cette ligne ";
         $this->redirectTo("Boutique", "TicketCaisse");
     }
     public function augmenter()
