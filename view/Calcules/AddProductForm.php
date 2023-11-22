@@ -48,7 +48,7 @@ foreach ($boutiques as $boutique) {
 <div class="container text-center bg-primary">
     <div class="row">
         <div class="col">
-            Total Général :
+            Total de produits :
         </div>
         <div class="col">
             Il y a <strong><?= $totalqtt ?> </strong> Produits enregistré

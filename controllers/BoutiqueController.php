@@ -22,7 +22,6 @@ class BoutiqueController extends AbstractController implements ControllerInterfa
 
         ];
     }
-
     public function addProductForm()
     {
         $boutiqueManager = new BoutiqueManager();
@@ -36,7 +35,6 @@ class BoutiqueController extends AbstractController implements ControllerInterfa
             ]
         ];
     }
-
     public function addProduct()
     {
         if (isset($_POST['submit'])) {
@@ -53,17 +51,18 @@ class BoutiqueController extends AbstractController implements ControllerInterfa
                         "name" => $name,
                         "price" => $price,
                         "quantity" => $quantity,
-                        "total" => $price * $quantity,
+                        "total" => $price * $quantity
                     ]
                 );
 
                 $_SESSION["message"] = '
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Hey salut!</strong> <br>
-                        Vos produits ont bien été ajouté
+                <h4 class="alert-heading">Hey salut! T\'as bien ajouté tes articles</h4>
+                <p class="mb-0"><a class="link-success" href="index.php?ctrl=boutique&action=addProductForm">T\'en veux encore,</a><a class="link-primary" href="index.php?ctrl=boutique&action=index">ou on s\'arrete ici ?</a></p>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>';
-                $this->redirectTo("Boutique", "TicketCaisse");
+
+                $this->redirectTo("Boutique", "pannier");
                 return [
                     "view" => VIEW_DIR . "Calcules/AddProductForm.php",
                 ];
@@ -71,15 +70,14 @@ class BoutiqueController extends AbstractController implements ControllerInterfa
         } else {
             $_SESSION["message"] =
                 '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Hey salut!</strong>
-                        Vos Informations sont fausses
+                <h4 class="alert-heading">Hey salut! T\'as rentré de mauvaises infos</h4>
+                <p class="mb-0"><a class="link-success" href="index.php?ctrl=boutique&action=addProductForm">On retente?</a></p>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>';
-            $this->redirectTo("Boutique", "index");
+            $this->redirectTo("Boutique", "addProductForm");
         }
     }
-
-    public function TicketCaisse()
+    public function pannier()
     {
         $boutiqueManager = new BoutiqueManager();
         $boutique = $boutiqueManager->findAll();
@@ -104,24 +102,20 @@ class BoutiqueController extends AbstractController implements ControllerInterfa
         $boutiqueManager = new BoutiqueManager();
         $boutiqueManager->deletebyId($id);
         $_SESSION['message'] = "Vous avez bien supprimé cette ligne ";
-        $this->redirectTo("Boutique", "TicketCaisse");
+        $this->redirectTo("Boutique", "pannier");
     }
-    public function augmenter()
+    public function augmenter($id)
     {
-        if (isset($_GET['index']) && isset($_SESSION['products'][$_GET['index']])) {
-            $_SESSION['products'][$_GET['index']]['quantity'] += 1;
-            $_SESSION['products'][$_GET['index']]['total'] = $_SESSION['products'][$_GET['index']]['quantity'] * $_SESSION['products'][$_GET['index']]['price'];
-            $_SESSION['message'] = "Vous avez bien augmenté la quantité de " . $_SESSION['products'][$_GET['index']]['name'];
-        }
-        $this->redirectTo("Boutique", "TicketCaisse");
+        $boutiqueManager = new BoutiqueManager();
+        $boutiqueManager->updatePlus($id);
+        $_SESSION['message'] = "Vous avez bien augmenté le stock de cette ligne ";
+        $this->redirectTo("Boutique", "pannier");
     }
-    public function reduire()
+    public function reduire($id)
     {
-        if (isset($_GET['index']) && isset($_SESSION['products'][$_GET['index']])) {
-            $_SESSION['products'][$_GET['index']]['quantity'] -= 1;
-            $_SESSION['products'][$_GET['index']]['total'] = $_SESSION['products'][$_GET['index']]['quantity'] * $_SESSION['products'][$_GET['index']]['price'];
-            $_SESSION['message'] = "Vous avez bien reduit la quantité de " . $_SESSION['products'][$_GET['index']]['name'];
-        }
-        $this->redirectTo("Boutique", "TicketCaisse");
+        $boutiqueManager = new BoutiqueManager();
+        $boutiqueManager->updateMinus($id);
+        $_SESSION['message'] = "Vous avez bien réduit le stock de cette ligne ";
+        $this->redirectTo("Boutique", "pannier");
     }
 }

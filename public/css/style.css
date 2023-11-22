@@ -26,15 +26,15 @@ tbody,
 th,
 tr,
 td {
-    border: 2px solid wheat;
-    border-width: 1px;
+    border-width: 2px;
     width: 20%;
 }
 
 .table {
     vertical-align: middle;
     table-layout: auto;
-    margin-top: 10%;
+    margin-top: 2%;
+    text-align: center;
 }
 
 .trio a {

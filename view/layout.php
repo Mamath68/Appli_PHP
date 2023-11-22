@@ -41,7 +41,7 @@
                             <a class="nav-link" href="index.php?ctrl=Boutique&action=addProductForm">Ajouter un Produit</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="index.php?ctrl=Boutique&action=TicketCaisse">Ticket de Caisse</a>
+                            <a class="nav-link" href="index.php?ctrl=Boutique&action=pannier">Ticket de Caisse</a>
                         </li>
                     </ul>
                 </div>

@@ -39,4 +39,28 @@ class BoutiqueManager extends Manager
             $this->className
         );
     }
+    public function updatePlus($id)
+    {
+        $sql = "Update 
+                FROM " . $this->tableName . " a
+                WHERE a.id_articles = :id
+                ";
+
+        return $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id], true),
+            $this->className
+        );
+    }
+    public function updateMinus($id)
+    {
+        $sql = "Update 
+                FROM " . $this->tableName . " a
+                WHERE a.id_articles = :id
+                ";
+
+        return $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id], true),
+            $this->className
+        );
+    }
 }
